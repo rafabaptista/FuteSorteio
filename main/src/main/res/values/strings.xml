@@ -1,0 +1,8 @@
+<resources>
+    <string name="team_name">Nome do Time</string>
+    <string name="player_name">Nome do Jogador</string>
+    <string name="team_name_title">Inserir Nome de Times</string>
+    <string name="text_button_back">Voltar</string>
+    <string name="text_button_remove">Remover</string>
+    <string name="text_button_next">Próximo</string>
+</resources>
