@@ -1,9 +1,9 @@
 package com.pqc.futesorteio.main.activities
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
@@ -13,17 +13,16 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.pqc.futesorteio.main.R
-import kotlinx.android.synthetic.main.activity_player_name.*
+import kotlinx.android.synthetic.main.activity_team_group.*
 
-class PlayerNameActivity : AppCompatActivity() {
+class TeamGroupActivity : AppCompatActivity() {
 
-    private val playerList: ArrayList<String> = ArrayList<String>()
+    private val teamList: ArrayList<String> = ArrayList<String>()
     private val selectedList: ArrayList<String> = ArrayList<String>()
-    private var teamList: ArrayList<String> = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_player_name)
+        setContentView(R.layout.activity_team_group)
     }
 
     override fun onResume() {
@@ -32,8 +31,6 @@ class PlayerNameActivity : AppCompatActivity() {
     }
 
     private fun initiateListeners() {
-        teamList = intent.getStringArrayListExtra("listTeam")
-
         btn_remove.setOnClickListener { removeSelecteds() }
         btn_next.setOnClickListener { next() }
         btn_back.setOnClickListener { back() }
@@ -79,10 +76,10 @@ class PlayerNameActivity : AppCompatActivity() {
     }
 
     private fun selectItem(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        if(selectedList.contains(playerList[position]))
-            selectedList.remove(playerList[position])
+        if(selectedList.contains(teamList[position]))
+            selectedList.remove(teamList[position])
         else
-            selectedList.add(playerList[position])
+            selectedList.add(teamList[position])
 
         showButtonRemove()
     }
@@ -97,12 +94,12 @@ class PlayerNameActivity : AppCompatActivity() {
 
             if(lines.size > 1) {
                 lines.forEach {
-                    if(!playerList.contains(it))
-                        playerList.add(it)
+                    if(!teamList.contains(it))
+                        teamList.add(it)
                 }
             } else {
-                if(!playerList.contains(text_name_add.text.toString()))
-                    playerList.add(text_name_add.text.toString())
+                if(!teamList.contains(text_name_add.text.toString()))
+                    teamList.add(text_name_add.text.toString())
                 else
                     showErrorAlert("Já está inserido na lista")
             }
@@ -114,25 +111,24 @@ class PlayerNameActivity : AppCompatActivity() {
     }
 
     private fun loadAdapter() {
-        lv.adapter = ArrayAdapter(this, android.R.layout.select_dialog_multichoice, playerList)
-        text_count_value.text = playerList.size.toString()
+        lv.adapter = ArrayAdapter(this, android.R.layout.select_dialog_multichoice, teamList)
+        text_count_value.text = teamList.size.toString()
     }
 
     private fun removeSelecteds() {
-        playerList.removeAll(selectedList)
+        teamList.removeAll(selectedList)
         loadAdapter()
         showButtonRemove()
     }
 
     private fun next() {
-        if(playerList.size > 0){
+        if(teamList.size > 0){
             val intent = Intent(this, GroupNumberActivity::class.java)
                     .putExtra("listTeam", teamList)
-                    .putExtra("listPlayer", playerList)
-                    .putExtra("mode", "team_player_group")
+                    .putExtra("mode", "team_real_group")
             startActivity(intent)
         } else {
-            showErrorAlert("Você não inseriu nenhum nome na lista")
+            showErrorAlert("Você não inseriu nenhum time na lista")
         }
     }
 

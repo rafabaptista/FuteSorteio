@@ -5,4 +5,9 @@
         <item name="colorControlHighlight">@color/colorPrimary</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
+
+    <style name="text_total_count" parent="AlertDialog.AppCompat.Light" >
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

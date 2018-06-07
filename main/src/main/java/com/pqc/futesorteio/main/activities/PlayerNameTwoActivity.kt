@@ -97,10 +97,15 @@ class PlayerNameTwoActivity : AppCompatActivity() {
 
             if(lines.size > 1) {
                 lines.forEach {
-                    playerTwoList!!.add(it)
+                    if(!playerTwoList.contains(it))
+                        playerTwoList.add(it)
                 }
-            } else
-                playerTwoList!!.add(text_name_add.text.toString())
+            } else {
+                if(!playerTwoList.contains(text_name_add.text.toString()))
+                    playerTwoList.add(text_name_add.text.toString())
+                else
+                    showErrorAlert("Já está inserido na lista")
+            }
 
             text_name_add.text.clear()
             loadAdapter()
@@ -109,7 +114,8 @@ class PlayerNameTwoActivity : AppCompatActivity() {
     }
 
     private fun loadAdapter() {
-        lv.adapter = ArrayAdapter(this, android.R.layout.select_dialog_multichoice, playerTwoList!!)
+        lv.adapter = ArrayAdapter(this, android.R.layout.select_dialog_multichoice, playerTwoList)
+        text_count_value.text = playerTwoList.size.toString()
     }
 
     private fun removeSelecteds() {
@@ -121,8 +127,8 @@ class PlayerNameTwoActivity : AppCompatActivity() {
     private fun next() {
         if(playerTwoList.size > 0){
             val intent = Intent(this, GroupSortFinishActivity::class.java)
-                    .putExtra("listPlayerOne", playerOneList!!)
-                    .putExtra("listPlayerTwo", playerTwoList!!)
+                    .putExtra("listPlayerOne", playerOneList)
+                    .putExtra("listPlayerTwo", playerTwoList)
                     .putExtra("mode", "vs")
             startActivity(intent)
         } else {

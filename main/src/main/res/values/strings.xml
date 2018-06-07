@@ -5,4 +5,5 @@
     <string name="text_button_back">Voltar</string>
     <string name="text_button_remove">Remover</string>
     <string name="text_button_next">Próximo</string>
+    <string name="text_new_sort">Novo Sorteio</string>
 </resources>

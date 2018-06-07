@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import com.pqc.futesorteio.main.R
+import com.pqc.futesorteio.main.activities.model.Result
 import kotlinx.android.synthetic.main.activity_group_sort_finish.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -15,19 +16,18 @@ import kotlin.math.roundToInt
 
 class GroupSortFinishActivity : AppCompatActivity() {
 
-    public enum class ViewToSet {
+    enum class ViewToSet {
         LOADING, MAIN
     }
-
-    private var listResult: ArrayList<String> = ArrayList<String>()
 
     private var teamList: ArrayList<String> = ArrayList<String>()
     private var playerList: ArrayList<String> = ArrayList<String>()
     private var playerOneList: ArrayList<String> = ArrayList<String>()
     private var playerTwoList: ArrayList<String> = ArrayList<String>()
-    private var numberGroups: Int = 0
+    private var playersTeamCount: Int = 0
     private var mode: String = ""
-    private var resultSort: String = ""
+
+    private var resultSortList: ArrayList<Result> = ArrayList<Result>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,8 +45,14 @@ class GroupSortFinishActivity : AppCompatActivity() {
         if(mode.equals("vs")){
             playerOneList = intent.getStringArrayListExtra("listPlayerOne")
             playerTwoList = intent.getStringArrayListExtra("listPlayerTwo")
+        } else if (mode.equals("team_real")) {
+            playersTeamCount = intent.getIntExtra("groupNumber", 0)
+            playerList = intent.getStringArrayListExtra("listPlayer")
+        } else if (mode.equals("team_real_group")) {
+            playersTeamCount = intent.getIntExtra("groupNumber", 0)
+            teamList = intent.getStringArrayListExtra("listTeam")
         } else {
-            numberGroups = intent.getIntExtra("groupNumber", 0)
+            playersTeamCount = intent.getIntExtra("groupNumber", 0)
             teamList = intent.getStringArrayListExtra("listTeam")
             playerList = intent.getStringArrayListExtra("listPlayer")
         }
@@ -79,6 +85,10 @@ class GroupSortFinishActivity : AppCompatActivity() {
 
         if(mode.equals("vs")){
             vsSort()
+        } else if (mode.equals("team_real")) {
+            teamReal()
+        } else if (mode.equals("team_real_group")) {
+            teamRealGroup()
         } else {
             groupSort()
         }
@@ -126,17 +136,17 @@ class GroupSortFinishActivity : AppCompatActivity() {
     }
 
     private fun vsSort() {
-        listResult = ArrayList<String>()
+        resultSortList = ArrayList()
 
         val totalPlayerOneList = playerOneList.size
         val totalPlayerTwoList = playerTwoList.size
 
-        var listPositionPlayerOne: ArrayList<Int> = ArrayList<Int>()
-        var listPositionPlayerTwo: ArrayList<Int> = ArrayList<Int>()
+        var listPositionPlayerOne: ArrayList<Int> = ArrayList()
+        var listPositionPlayerTwo: ArrayList<Int> = ArrayList()
 
-        var random: Random = Random()
+        var random = Random()
         var randomNumber: Int
-        var increment: Int = 0
+        var increment = 0
 
         val totalListaMenor = if(totalPlayerOneList > totalPlayerTwoList) totalPlayerTwoList else totalPlayerOneList
 
@@ -161,26 +171,159 @@ class GroupSortFinishActivity : AppCompatActivity() {
         }
 
         for(item in 0..(totalListaMenor - 1)) {
-            resultSort += "${playerOneList[listPositionPlayerOne[item]].toUpperCase().trim()} x ${playerTwoList[listPositionPlayerTwo[item]].toUpperCase().trim()} \n "
-            listResult.add("${playerOneList[listPositionPlayerOne[item]].toUpperCase().trim()} x ${playerTwoList[listPositionPlayerTwo[item]].toUpperCase().trim()}")
+            resultSortList.add(
+                    Result(
+                            0,
+                            "${playerOneList[listPositionPlayerOne[item]].toUpperCase().trim()}",
+                            "${playerTwoList[listPositionPlayerTwo[item]].toUpperCase().trim()}",
+                            ""
+                    )
+            )
+        }
+    }
+
+    private fun teamReal() {
+        resultSortList= ArrayList()
+
+        val totalPlayerList = playerList.size
+        val playersPerTeam = playersTeamCount
+        var listGroup: ArrayList<Int> = ArrayList()
+        var random = Random()
+        var randomNumber: Int
+        var listPositionPlayer: ArrayList<Int> = ArrayList()
+        var listPositionGroup: ArrayList<Int> = ArrayList()
+        var increment = 0
+        var repeatNumber: Double
+        var completeTeamNumber = 0
+
+        var realNumberPlayers: Int
+
+        repeatNumber = (totalPlayerList / playersPerTeam).toDouble()
+
+        realNumberPlayers = repeatNumber.roundToInt() * playersPerTeam
+
+        for (item in 0..(realNumberPlayers - 1)) {
+            if(increment < repeatNumber.roundToInt())
+                listGroup.add(increment)
+            else {
+                if(completeTeamNumber < playersPerTeam) {
+                    increment = 0
+                    listGroup.add(increment)
+                    completeTeamNumber++
+                }
+                else {
+                    break
+                }
+            }
+
+            increment++
+        }
+
+        increment = 0
+
+        while (increment < realNumberPlayers) {
+            randomNumber = random.nextInt(totalPlayerList)
+
+            if(!listPositionPlayer.contains(randomNumber) && listPositionPlayer.size <= realNumberPlayers) {
+                listPositionPlayer.add(randomNumber)
+                increment++
+            }
+        }
+
+        increment = 0
+
+        while (increment < listGroup.size) {
+            randomNumber = random.nextInt(realNumberPlayers)
+
+            if(!listPositionGroup.contains(randomNumber)) {
+                listPositionGroup.add(randomNumber)
+                increment++
+            }
+        }
+
+        for(item in 0..(realNumberPlayers - 1)) {
+            resultSortList.add(
+                    Result(
+                            listGroup[listPositionGroup[item]] + 1,
+                            "TIME ${(listGroup[listPositionGroup[item]] + 1)}",
+                            playerList[listPositionPlayer[item]].toUpperCase().trim(),
+                            ""
+                    )
+            )
+        }
+    }
+
+    private fun teamRealGroup() {
+        resultSortList= ArrayList()
+
+        val totalListTeam = teamList.size
+        val groupCount = playersTeamCount
+        var repeatNumber: Double
+        var listGroup: ArrayList<Int> = ArrayList()
+
+        var listPositionTeam: ArrayList<Int> = ArrayList()
+        var listPositionGroup: ArrayList<Int> = ArrayList()
+
+
+        var random = Random()
+        var randomNumber: Int
+        var increment = 0
+
+        repeatNumber = (totalListTeam / groupCount).toDouble()
+
+        for(item in 0..(playersTeamCount - 1)) {
+            for(repeatItem in 0..(repeatNumber.roundToInt() - 1)){
+                listGroup.add(item)
+            }
+        }
+
+        while (increment < totalListTeam) {
+            randomNumber = random.nextInt(totalListTeam)
+
+            if(!listPositionTeam.contains(randomNumber)) {
+                listPositionTeam.add(randomNumber)
+                increment++
+            }
+        }
+
+        increment = 0
+
+        while (increment < totalListTeam) {
+            randomNumber = random.nextInt(totalListTeam)
+
+            if(!listPositionGroup.contains(randomNumber)) {
+                listPositionGroup.add(randomNumber)
+                increment++
+            }
+        }
+
+        for(item in 0..(totalListTeam - 1)) {
+            resultSortList.add(
+                    Result(
+                            listGroup[listPositionGroup[item]] + 1,
+                            teamList[listPositionTeam[item]].toUpperCase().trim(),
+                            "",
+                            "GRUPO ${(listGroup[listPositionGroup[item]] + 1)}"
+                    )
+            )
         }
     }
 
     private fun groupSort() {
-        listResult = ArrayList<String>()
+        resultSortList= ArrayList()
 
         val totalListTeam = teamList.size
         val totalPlayerList = playerList.size
-        val groupCount = numberGroups
+        val groupCount = playersTeamCount
         var repeatNumber: Double
-        var listGroup: ArrayList<Int> = ArrayList<Int>()
+        var listGroup: ArrayList<Int> = ArrayList()
 
-        var listPositionTeam: ArrayList<Int> = ArrayList<Int>()
-        var listPositionPlayer: ArrayList<Int> = ArrayList<Int>()
-        var listPositionGroup: ArrayList<Int> = ArrayList<Int>()
+        var listPositionTeam: ArrayList<Int> = ArrayList()
+        var listPositionPlayer: ArrayList<Int> = ArrayList()
+        var listPositionGroup: ArrayList<Int> = ArrayList()
 
 
-        var random: Random = Random()
+        var random = Random()
         var randomNumber: Int
         var increment: Int = 0
 
@@ -188,7 +331,7 @@ class GroupSortFinishActivity : AppCompatActivity() {
 
         repeatNumber = (totalListaMenor / groupCount).toDouble()
 
-        for(item in 0..(numberGroups - 1)) {
+        for(item in 0..(playersTeamCount - 1)) {
             for(repeatItem in 0..(repeatNumber.roundToInt() - 1)){
                 listGroup.add(item)
             }
@@ -226,13 +369,31 @@ class GroupSortFinishActivity : AppCompatActivity() {
         }
 
         for(item in 0..(totalListaMenor - 1)) {
-            resultSort += "${playerList[listPositionPlayer[item]].toUpperCase().trim()} -> ${teamList[listPositionTeam[item]].toUpperCase().trim()} -> GRUPO ${(listGroup[listPositionGroup[item]] + 1).toString()} \n "
-            listResult.add("${playerList[listPositionPlayer[item]].toUpperCase().trim()} -> ${teamList[listPositionTeam[item]].toUpperCase().trim()} -> GRUPO ${(listGroup[listPositionGroup[item]] + 1).toString()}")
+            resultSortList.add(
+                    Result(
+                            listGroup[listPositionGroup[item]] + 1,
+                            teamList[listPositionTeam[item]].toUpperCase().trim(),
+                            playerList[listPositionPlayer[item]].toUpperCase().trim(),
+                            "GRUPO ${(listGroup[listPositionGroup[item]] + 1)}"
+                    )
+            )
         }
     }
 
     private fun loadAdapter() {
-        list_result.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, listResult!!)
+        var sortedList: List<String>
+
+        if(mode.equals("vs")){
+            sortedList = resultSortList.sortedWith(compareBy({ it.order })).map { "${it.team} x ${it.name}" }
+        } else if (mode.equals("team_real")) {
+            sortedList = resultSortList.sortedWith(compareBy({ it.order })).map { "${it.team} -> ${it.name}" }
+        } else if (mode.equals("team_real_group")) {
+            sortedList = resultSortList.sortedWith(compareBy({ it.order })).map { "${it.group} -> ${it.team}" }
+        } else {
+            sortedList = resultSortList.sortedWith(compareBy({ it.order })).map { "${it.group} -> ${it.name} -> ${it.team}" }
+        }
+
+        list_result.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, sortedList)
     }
 
     private fun shareResult() {
@@ -242,7 +403,28 @@ class GroupSortFinishActivity : AppCompatActivity() {
         val shareIntent = Intent()
         shareIntent.action = Intent.ACTION_SEND
         shareIntent.type="text/plain"
-        shareIntent.putExtra(Intent.EXTRA_TEXT, "Resultado do Sorteio: \n\n ${resultSort} \n Realizado em ${ currentDate }")
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "Resultado do Sorteio: \n\n${orderShareResult()} \nRealizado em ${ currentDate }.")
         startActivity(Intent.createChooser(shareIntent,"Resultado do sorteio"))
+    }
+
+    private fun orderShareResult(): String{
+        var sortedList: List<String>
+        var returnResult: String = ""
+
+        if(mode.equals("vs")){
+            sortedList = resultSortList.sortedWith(compareBy({ it.order })).map { "${it.team} x ${it.name}" }
+        } else if (mode.equals("team_real")) {
+            sortedList = resultSortList.sortedWith(compareBy({ it.order })).map { "${it.team} -> ${it.name}" }
+        } else if (mode.equals("team_real_group")) {
+            sortedList = resultSortList.sortedWith(compareBy({ it.order })).map { "${it.group} -> ${it.team}" }
+        } else {
+            sortedList = resultSortList.sortedWith(compareBy({ it.order })).map { "${it.group} -> ${it.name} -> ${it.team}" }
+        }
+
+        for(item in sortedList) {
+            returnResult += "$item \n"
+        }
+
+        return returnResult
     }
 }

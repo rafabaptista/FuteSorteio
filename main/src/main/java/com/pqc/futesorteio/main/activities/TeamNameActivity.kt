@@ -100,10 +100,15 @@ class TeamNameActivity : AppCompatActivity() {
 
             if(lines.size > 1) {
                 lines.forEach {
-                    teamList!!.add(it)
+                    if(!teamList.contains(it))
+                        teamList.add(it)
                 }
-            } else
-                teamList!!.add(text_name_add.text.toString())
+            } else {
+                if(!teamList.contains(text_name_add.text.toString()))
+                    teamList.add(text_name_add.text.toString())
+                else
+                    showErrorAlert("Já está inserido na lista")
+            }
 
             text_name_add.text.clear()
             loadAdapter()
@@ -112,7 +117,8 @@ class TeamNameActivity : AppCompatActivity() {
     }
 
     private fun loadAdapter() {
-        lv.adapter = ArrayAdapter(this, android.R.layout.select_dialog_multichoice, teamList!!)
+        lv.adapter = ArrayAdapter(this, android.R.layout.select_dialog_multichoice, teamList)
+        text_count_value.text = teamList.size.toString()
     }
 
     private fun removeSelecteds() {
@@ -123,7 +129,7 @@ class TeamNameActivity : AppCompatActivity() {
 
     private fun next() {
         if(teamList.size > 0){
-            val intent = Intent(this, PlayerNameActivity::class.java).putExtra("listTeam", teamList!!)
+            val intent = Intent(this, PlayerNameActivity::class.java).putExtra("listTeam", teamList)
             startActivity(intent)
         } else {
             showErrorAlert("Você não inseriu nenhum time na lista")

@@ -1,9 +1,9 @@
 package com.pqc.futesorteio.main.activities
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
@@ -13,17 +13,16 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.pqc.futesorteio.main.R
-import kotlinx.android.synthetic.main.activity_player_name.*
+import kotlinx.android.synthetic.main.activity_name_real.*
 
-class PlayerNameActivity : AppCompatActivity() {
+class NameRealActivity : AppCompatActivity() {
 
     private val playerList: ArrayList<String> = ArrayList<String>()
     private val selectedList: ArrayList<String> = ArrayList<String>()
-    private var teamList: ArrayList<String> = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_player_name)
+        setContentView(R.layout.activity_name_real)
     }
 
     override fun onResume() {
@@ -32,8 +31,6 @@ class PlayerNameActivity : AppCompatActivity() {
     }
 
     private fun initiateListeners() {
-        teamList = intent.getStringArrayListExtra("listTeam")
-
         btn_remove.setOnClickListener { removeSelecteds() }
         btn_next.setOnClickListener { next() }
         btn_back.setOnClickListener { back() }
@@ -126,10 +123,8 @@ class PlayerNameActivity : AppCompatActivity() {
 
     private fun next() {
         if(playerList.size > 0){
-            val intent = Intent(this, GroupNumberActivity::class.java)
-                    .putExtra("listTeam", teamList)
+            val intent = Intent(this, TeamNumberRealActivity::class.java)
                     .putExtra("listPlayer", playerList)
-                    .putExtra("mode", "team_player_group")
             startActivity(intent)
         } else {
             showErrorAlert("Você não inseriu nenhum nome na lista")

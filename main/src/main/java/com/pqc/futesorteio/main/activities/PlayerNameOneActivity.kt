@@ -94,10 +94,15 @@ class PlayerNameOneActivity : AppCompatActivity() {
 
             if(lines.size > 1) {
                 lines.forEach {
-                    playerList!!.add(it)
+                    if(!playerList.contains(it))
+                        playerList.add(it)
                 }
-            } else
-                playerList!!.add(text_name_add.text.toString())
+            } else {
+                if(!playerList.contains(text_name_add.text.toString()))
+                    playerList.add(text_name_add.text.toString())
+                else
+                    showErrorAlert("Já está inserido na lista")
+            }
 
             text_name_add.text.clear()
             loadAdapter()
@@ -106,18 +111,20 @@ class PlayerNameOneActivity : AppCompatActivity() {
     }
 
     private fun loadAdapter() {
-        lv.adapter = ArrayAdapter(this, android.R.layout.select_dialog_multichoice, playerList!!)
+        lv.adapter = ArrayAdapter(this, android.R.layout.select_dialog_multichoice, playerList)
+        text_count_value.text = playerList.size.toString()
     }
 
     private fun removeSelecteds() {
         playerList.removeAll(selectedList)
         loadAdapter()
+        showButtonRemove()
     }
 
     private fun next() {
         if(playerList.size > 0){
             val intent = Intent(this, PlayerNameTwoActivity::class.java)
-                    .putExtra("listPlayerOne", playerList!!)
+                    .putExtra("listPlayerOne", playerList)
             startActivity(intent)
         } else {
             showErrorAlert("Você não inseriu nenhum nome na lista")
