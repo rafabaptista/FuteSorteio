@@ -1,4 +1,4 @@
-package com.pqc.futesorteio.main.activities
+package com.pqc.futesorteio.main.activities.activities
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -12,19 +12,17 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.pqc.futesorteio.main.R
 import kotlinx.android.synthetic.main.activity_team_name.*
-import android.view.KeyEvent.KEYCODE_K
-import android.view.KeyEvent.KEYCODE_J
-import android.view.KeyEvent.KEYCODE_F
-import android.view.KeyEvent.KEYCODE_D
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import android.widget.TextView
+import com.pqc.futesorteio.main.activities.utils.invisible
+import com.pqc.futesorteio.main.activities.utils.show
+import com.pqc.futesorteio.main.activities.utils.showStandardAlert
 
 
 class TeamNameActivity : AppCompatActivity() {
 
-    private val teamList: ArrayList<String> = ArrayList<String>()
-    private val selectedList: ArrayList<String> = ArrayList<String>()
+    private val teamList: ArrayList<String> = ArrayList()
+    private val selectedList: ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,7 +89,7 @@ class TeamNameActivity : AppCompatActivity() {
     }
 
     private fun showButtonRemove() {
-        if(lv.checkedItemCount > 0) btn_remove.visibility = View.VISIBLE else btn_remove.visibility = View.INVISIBLE
+        if(lv.checkedItemCount > 0) btn_remove.show() else btn_remove.invisible()
     }
 
     private fun addText() {
@@ -107,13 +105,13 @@ class TeamNameActivity : AppCompatActivity() {
                 if(!teamList.contains(text_name_add.text.toString()))
                     teamList.add(text_name_add.text.toString())
                 else
-                    showErrorAlert("Já está inserido na lista")
+                    showStandardAlert(this, "Atenção", "Já está inserido na lista")
             }
 
             text_name_add.text.clear()
             loadAdapter()
         } else
-            showErrorAlert("Necessário digitar nome")
+            showStandardAlert(this, "Atenção", "Necessário digitar nome")
     }
 
     private fun loadAdapter() {
@@ -132,16 +130,7 @@ class TeamNameActivity : AppCompatActivity() {
             val intent = Intent(this, PlayerNameActivity::class.java).putExtra("listTeam", teamList)
             startActivity(intent)
         } else {
-            showErrorAlert("Você não inseriu nenhum time na lista")
+            showStandardAlert(this, "Atenção", "Você não inseriu nenhum time na lista")
         }
-    }
-
-    private fun showErrorAlert(message: String) {
-        AlertDialog.Builder(this)
-                .setTitle("Atenção")
-                .setMessage(message)
-                .setCancelable(false)
-                .setNeutralButton(android.R.string.ok, null).create()
-                .show()
     }
 }

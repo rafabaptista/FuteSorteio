@@ -4,7 +4,7 @@
 
     <application android:screenOrientation="portrait">
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.activities.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.TeamNameActivity"
+            android:name=".activities.activities.TeamNameActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
             <intent-filter android:order="1">
@@ -40,7 +40,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.PlayerNameActivity"
+            android:name=".activities.activities.PlayerNameActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
             <intent-filter android:order="1">
@@ -56,7 +56,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.GroupNumberActivity"
+            android:name=".activities.activities.GroupNumberActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
             <intent-filter android:order="1">
@@ -72,7 +72,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.GroupSortFinishActivity"
+            android:name=".activities.activities.GroupSortFinishActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
             <intent-filter android:order="1">
@@ -88,7 +88,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.PlayerNameOneActivity"
+            android:name=".activities.activities.PlayerNameOneActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
             <intent-filter android:order="1">
@@ -104,7 +104,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.PlayerNameTwoActivity"
+            android:name=".activities.activities.PlayerNameTwoActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
             <intent-filter android:order="1">
@@ -119,7 +119,7 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.HeadsTailsActivity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustPan">
+        <activity android:name=".activities.activities.HeadsTailsActivity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustPan">
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -132,7 +132,7 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.NameRealActivity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustPan">
+        <activity android:name=".activities.activities.NameRealActivity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustPan">
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -145,7 +145,7 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.TeamNumberRealActivity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustPan">
+        <activity android:name=".activities.activities.TeamNumberRealActivity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustPan">
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -158,7 +158,7 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.TeamGroupActivity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustPan">
+        <activity android:name=".activities.activities.TeamGroupActivity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustPan">
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
 

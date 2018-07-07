@@ -1,4 +1,4 @@
-package com.pqc.futesorteio.main.activities
+package com.pqc.futesorteio.main.activities.activities
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -11,6 +11,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import com.pqc.futesorteio.main.R
+import com.pqc.futesorteio.main.activities.utils.showStandardAlert
 import kotlinx.android.synthetic.main.activity_group_number.*
 
 class GroupNumberActivity : AppCompatActivity() {
@@ -96,10 +97,10 @@ class GroupNumberActivity : AppCompatActivity() {
                                     .putExtra("mode", mode)
                         startActivity(intent)
                     } else {
-                        showErrorAlert("O número digitado não é divisível pelo número de itens na lista")
+                        showStandardAlert(this, "Atenção", "O número digitado não é divisível pelo número de itens na lista")
                     }
                 } else {
-                    showErrorAlert("O número de grupos não pode ser maior que os itens da lista")
+                    showStandardAlert(this, "Atenção", "O número de grupos não pode ser maior que os itens da lista")
                 }
 
             } else {
@@ -114,24 +115,15 @@ class GroupNumberActivity : AppCompatActivity() {
                                 .putExtra("mode", mode)
                         startActivity(intent)
                     } else {
-                        showErrorAlert("O número digitado não é divisível pelo número de itens na lista")
+                        showStandardAlert(this, "Atenção", "O número digitado não é divisível pelo número de itens na lista")
                     }
                 } else {
-                    showErrorAlert("O número de grupos não pode ser maior que os itens da lista")
+                    showStandardAlert(this, "Atenção", "O número de grupos não pode ser maior que os itens da lista")
                 }
             }
 
         } else {
-            showErrorAlert("Você não digitou o número de grupos")
+            showStandardAlert(this, "Atenção", "Você não digitou o número de grupos")
         }
-    }
-
-    private fun showErrorAlert(message: String) {
-        AlertDialog.Builder(this)
-                .setTitle("Atenção")
-                .setMessage(message)
-                .setCancelable(false)
-                .setNeutralButton(android.R.string.ok, null).create()
-                .show()
     }
 }

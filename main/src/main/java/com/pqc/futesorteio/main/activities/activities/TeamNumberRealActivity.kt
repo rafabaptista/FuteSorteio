@@ -1,4 +1,4 @@
-package com.pqc.futesorteio.main.activities
+package com.pqc.futesorteio.main.activities.activities
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -11,6 +11,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import com.pqc.futesorteio.main.R
+import com.pqc.futesorteio.main.activities.utils.showStandardAlert
 import kotlinx.android.synthetic.main.activity_team_number_real.*
 
 class TeamNumberRealActivity : AppCompatActivity() {
@@ -83,19 +84,10 @@ class TeamNumberRealActivity : AppCompatActivity() {
                         .putExtra("mode", "team_real")
                 startActivity(intent)
             } else {
-                showErrorAlert("O número não pode ser maior que os itens da lista")
+                showStandardAlert(this, "Atenção", "O número não pode ser maior que os itens da lista")
             }
         } else {
-            showErrorAlert("Você não digitou o número")
+            showStandardAlert(this, "Atenção", "Você não digitou o número")
         }
-    }
-
-    private fun showErrorAlert(message: String) {
-        AlertDialog.Builder(this)
-                .setTitle("Atenção")
-                .setMessage(message)
-                .setCancelable(false)
-                .setNeutralButton(android.R.string.ok, null).create()
-                .show()
     }
 }

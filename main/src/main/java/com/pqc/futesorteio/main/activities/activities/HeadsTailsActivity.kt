@@ -1,13 +1,13 @@
-package com.pqc.futesorteio.main.activities
+package com.pqc.futesorteio.main.activities.activities
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.view.View
 import com.pqc.futesorteio.main.R
+import com.pqc.futesorteio.main.activities.utils.show
 import kotlinx.android.synthetic.main.activity_heads_tails.*
 import java.util.*
 
@@ -48,7 +48,7 @@ class HeadsTailsActivity : AppCompatActivity() {
     }
 
     private fun setVisibilityButtons() {
-        layout_buttons.visibility = View.VISIBLE
+        layout_buttons.show()
     }
 
     private fun newSort() {

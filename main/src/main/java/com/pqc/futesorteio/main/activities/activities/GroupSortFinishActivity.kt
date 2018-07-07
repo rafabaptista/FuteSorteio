@@ -1,13 +1,15 @@
-package com.pqc.futesorteio.main.activities
+package com.pqc.futesorteio.main.activities.activities
 
 import android.app.AlertDialog
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.ArrayAdapter
 import com.pqc.futesorteio.main.R
 import com.pqc.futesorteio.main.activities.model.Result
+import com.pqc.futesorteio.main.activities.utils.hide
+import com.pqc.futesorteio.main.activities.utils.invisible
+import com.pqc.futesorteio.main.activities.utils.show
 import kotlinx.android.synthetic.main.activity_group_sort_finish.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -20,14 +22,14 @@ class GroupSortFinishActivity : AppCompatActivity() {
         LOADING, MAIN
     }
 
-    private var teamList: ArrayList<String> = ArrayList<String>()
-    private var playerList: ArrayList<String> = ArrayList<String>()
-    private var playerOneList: ArrayList<String> = ArrayList<String>()
-    private var playerTwoList: ArrayList<String> = ArrayList<String>()
+    private var teamList: ArrayList<String> = ArrayList()
+    private var playerList: ArrayList<String> = ArrayList()
+    private var playerOneList: ArrayList<String> = ArrayList()
+    private var playerTwoList: ArrayList<String> = ArrayList()
     private var playersTeamCount: Int = 0
     private var mode: String = ""
 
-    private var resultSortList: ArrayList<Result> = ArrayList<Result>()
+    private var resultSortList: ArrayList<Result> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,12 +68,12 @@ class GroupSortFinishActivity : AppCompatActivity() {
     private fun showView(option: ViewToSet) {
         when (option) {
             ViewToSet.LOADING -> {
-                layout_content.visibility = View.INVISIBLE
-                progress_bar_loading.visibility = View.VISIBLE
+                layout_content.invisible()
+                progress_bar_loading.show()
             }
             ViewToSet.MAIN -> {
-                layout_content.visibility = View.VISIBLE
-                progress_bar_loading.visibility = View.GONE
+                layout_content.show()
+                progress_bar_loading.hide()
             }
         }
     }
@@ -100,9 +102,9 @@ class GroupSortFinishActivity : AppCompatActivity() {
 
     private fun setVisibilityButtons() {
         if(list_result.count > 0) {
-            layout_buttons.visibility = View.VISIBLE
+            layout_buttons.show()
         } else {
-            layout_buttons.visibility = View.INVISIBLE
+            layout_buttons.invisible()
         }
     }
 

@@ -1,4 +1,4 @@
-package com.pqc.futesorteio.main.activities
+package com.pqc.futesorteio.main.activities.activities
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity

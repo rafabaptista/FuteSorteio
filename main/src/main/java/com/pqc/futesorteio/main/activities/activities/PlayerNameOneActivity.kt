@@ -1,4 +1,4 @@
-package com.pqc.futesorteio.main.activities
+package com.pqc.futesorteio.main.activities.activities
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -13,6 +13,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.pqc.futesorteio.main.R
+import com.pqc.futesorteio.main.activities.utils.showStandardAlert
 import kotlinx.android.synthetic.main.activity_player_name_one.*
 
 class PlayerNameOneActivity : AppCompatActivity() {
@@ -101,13 +102,13 @@ class PlayerNameOneActivity : AppCompatActivity() {
                 if(!playerList.contains(text_name_add.text.toString()))
                     playerList.add(text_name_add.text.toString())
                 else
-                    showErrorAlert("Já está inserido na lista")
+                    showStandardAlert(this, "Atenção", "Necessário digitar nome")
             }
 
             text_name_add.text.clear()
             loadAdapter()
         } else
-            showErrorAlert("Necessário digitar nome")
+            showStandardAlert(this, "Atenção", "Necessário digitar nome")
     }
 
     private fun loadAdapter() {
@@ -127,16 +128,7 @@ class PlayerNameOneActivity : AppCompatActivity() {
                     .putExtra("listPlayerOne", playerList)
             startActivity(intent)
         } else {
-            showErrorAlert("Você não inseriu nenhum nome na lista")
+            showStandardAlert(this, "Atenção", "Você não inseriu nenhum nome na lista")
         }
-    }
-
-    private fun showErrorAlert(message: String) {
-        AlertDialog.Builder(this)
-                .setTitle("Atenção")
-                .setMessage(message)
-                .setCancelable(false)
-                .setNeutralButton(android.R.string.ok, null).create()
-                .show()
     }
 }
